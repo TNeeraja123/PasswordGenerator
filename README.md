@@ -1,29 +1,30 @@
-# PasswordGenerator
-import random
-import string
+def generate_password(length, use_letters=True, use_numbers=True, use_special_chars=True):
+    characters = ""
 
-def generate_password(length):
-    if length <= 0:
-        return "Password length must be greater than 0."
-    
-    
-    characters = string.ascii_letters + string.digits + string.punctuation
-    
-    # Generate the password
-    password = ''.join(random.choice(characters) for i in range(length))
-    
+    if use_letters:
+        characters += string.ascii_letters  # Includes both uppercase and lowercase letters
+    if use_numbers:
+        characters += string.digits  # Includes digits 0-9
+    if use_special_chars:
+        characters += string.punctuation  # Includes special characters
+
+    if not characters:
+        return "You need to select at least one character set!"
+
+    password = ''.join(random.choice(characters) for _ in range(length))
     return password
 
-def main():
-    while True:
-        try:
-            length = int(input("Enter the desired length for the password: "))
-            break
-        except ValueError:
-            print("Please enter a valid number.")
 
-    password = generate_password(length)
-    print(f"Generated password: {password}")
+# User input for password preferences
+try:
+    length = int(input("Enter the desired password length: "))
+    include_letters = input("Include letters? (y/n): ").lower() == 'y'
+    include_numbers = input("Include numbers? (y/n): ").lower() == 'y'
+    include_special_chars = input("Include special characters? (y/n): ").lower() == 'y'
 
-if __name__ == "__main__":
-    main()
+    # Generate password based on user preferences
+    password = generate_password(length, include_letters, include_numbers, include_special_chars)
+    print(f"Generated Password: {password}")
+
+except ValueError:
+    print("Please enter a valid number for the length.")
